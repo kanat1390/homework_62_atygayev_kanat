@@ -1,0 +1,15 @@
+<ul class="list-group bg-light">
+    {% for project in project_list %}
+    <li class="list-group-item d-flex justify-content-between align-items-center">
+        <a href="{% url 'project-detail' project.pk %}" class="nav-link">{{ project.name }}</a>
+        {% if user.is_authenticated %}
+        <div class="d-flex gap-3">
+            <a href="{% url 'project-update' project.pk %}" class="btn btn-primary">Редактировать</a>
+            <a href="{% url 'project-delete' project.pk %}" class="btn btn-danger">Удалить</a>
+        </div>
+        {% endif %}
+    </li>
+    {% empty %}
+    <p class="text-center mt-3">Нет доступных проектов</p>
+    {% endfor %}
+</ul>

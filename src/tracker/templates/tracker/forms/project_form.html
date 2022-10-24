@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+
+{% block page_title %}
+<h3>{{ title }}</h3>
+{% endblock page_title %}
+
+{% block content %}
+<form action="" method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" class="btn btn-primary">Применить</button>
+</form>
+{% endblock content %}

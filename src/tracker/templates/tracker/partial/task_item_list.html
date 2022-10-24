@@ -1,0 +1,17 @@
+<ul class="list-group bg-light mt-3">
+    {% for task in task_list %}
+    <li class="list-group-item">
+        <div class="d-flex justify-content-between align-items-center">
+            <a href="{% url 'task-detail' task.pk %}" class="nav-link">{{ task.summary }}</a>
+            {% if user.is_authenticated %}
+            <div class="d-flex gap-3">
+                <a href="{% url 'task-update' task.pk %}" class="btn btn-primary">Редактировать</a>
+                <a href="{% url 'task-delete' task.pk %}" class="btn btn-danger">Удалить</a>
+            </div>
+            {% endif %}
+        </div>
+    </li>
+    {% empty %}
+    <p class="text-center  mt-3">Нет доступных задач</p>
+    {% endfor %}
+</ul>
