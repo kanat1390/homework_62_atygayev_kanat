@@ -1,8 +1,13 @@
-from accounts.forms import LoginForm
+from accounts.forms import LoginForm, CustomeUserCreationForm
 from django.views.generic import TemplateView
+from django.views.generic.edit import CreateView
 from django.contrib.auth import authenticate, login, logout
 from django.shortcuts import redirect
+from django.urls import reverse
 
+class SuccessListUrlMixin:
+    def get_success_url(self):
+        return redirect(reverse(self.success_url, kwargs={}))
 
 class LoginView(TemplateView):
     template_name = 'accounts/login.html'
@@ -32,3 +37,23 @@ class LoginView(TemplateView):
 def logout_view(request):
     logout(request)
     return redirect('project-list')
+
+
+class RegisterView(SuccessListUrlMixin, CreateView):
+    template_name = 'accounts/register.html'
+    form_class = CustomeUserCreationForm
+    success_url = 'project-list'
+
+    def post(self, request, *args, **kwargs):
+        form = self.form_class(request.POST)
+        if form.is_valid():
+            user = form.save()
+            login(request,user)
+            return self.get_success_url()
+        context = {
+            'form':form,
+        }
+        return self.render_to_response(context)
+
+
+
