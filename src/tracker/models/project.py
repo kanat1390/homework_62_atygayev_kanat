@@ -1,7 +1,5 @@
-from ast import Delete
-from email.policy import default
 from django.db import models
-from django.urls import reverse
+from django.contrib.auth.models import User
 
 class ProjectManager(models.Manager):
     def get_queryset(self):
@@ -16,6 +14,7 @@ class Project(models.Model):
     is_deleted = models.BooleanField(default=False)
     objects = models.Manager()
     project_objects = ProjectManager()
+    participants = models.ManyToManyField(User, related_name='projects')
 
     def __str__(self):
         return self.name

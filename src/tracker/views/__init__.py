@@ -4,6 +4,7 @@ from .project_views import (
     ProjectDetailView,
     ProjectListView,
     ProjectUpdateView,
+    ProjectParticipantsUpdateView
 )
 
 from .task_views import (

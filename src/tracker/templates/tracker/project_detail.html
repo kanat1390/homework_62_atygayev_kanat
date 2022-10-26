@@ -25,6 +25,16 @@
     <div class="mt-3">
         <h4 class="border-bottom pb-2">Дата завершения</h4> {{ project.finished_date }}
     </div>
+    <div>
+        <h4 class="border-bottom pb-2 d-flex justify-content-start gap-3"><span>Участники проекта</span><a
+                href="{% url 'update_participants' project.pk %}"><i class="fa-sharp fa-solid fa-plus-minus"></i></a>
+        </h4>
+        <div class="d-flex justify-content-start gap-2">
+            {% for participant in project.participants.all%}
+            <span>{{ participant }}</span>
+            {% endfor %}
+        </div>
+    </div>
 </div>
 <h4 class="text-center">Задачи проекта</h4>
 {% include 'tracker/partial/task_item_list.html' with task_list=page_obj.object_list %}

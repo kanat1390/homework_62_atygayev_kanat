@@ -6,7 +6,9 @@ from django.core.paginator import Paginator
 from .mixin import SuccessDetailUrlMixin
 from django.http import HttpResponseRedirect
 from django.contrib.auth.mixins import LoginRequiredMixin
-
+from django.views.generic import TemplateView
+from tracker.forms import ParticipantUpdateForm
+from django.shortcuts import get_object_or_404, redirect
 
 class ProjectListView(ListView):
     model = Project
@@ -64,3 +66,21 @@ class ProjectDeleteView(LoginRequiredMixin, DeleteView):
         self.object.is_deleted = True
         self.object.save()
         return HttpResponseRedirect(success_url)
+
+
+class ProjectParticipantsUpdateView(TemplateView):
+    template_name = 'tracker/participants_update.html'
+
+    def get_context_data(self, **kwargs):
+        context =  super().get_context_data(**kwargs)
+        form = ParticipantUpdateForm()
+        context['form'] = form
+        return context
+    
+    def post(self, request, *args, **kwargs):
+        pk = kwargs['pk']
+        project = get_object_or_404(Project, pk=pk)
+        participants = request.POST.getlist('participants')
+        project.participants.set(participants)
+        project.save()
+        return redirect(reverse('project-detail', kwargs={'pk':pk}))

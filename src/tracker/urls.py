@@ -9,7 +9,8 @@ from tracker.views import (
     ProjectUpdateView,
     TaskUpdateView,
     TaskDeleteView,
-    ProjectDeleteView
+    ProjectDeleteView,
+    ProjectParticipantsUpdateView
 )
 
 urlpatterns = [
@@ -23,4 +24,5 @@ urlpatterns = [
     path('<int:pk>/create/', TaskCreateView.as_view(), name='task-create'),
     path('<int:pk>/delete/', ProjectDeleteView.as_view(), name='project-delete'),
     path('<int:pk>/update/', ProjectUpdateView.as_view(), name='project-update'),
+    path('<int:pk>/participants/update/', ProjectParticipantsUpdateView.as_view(), name="update_participants"),
 ]
